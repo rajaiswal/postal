@@ -22,9 +22,9 @@ module Postal
         request_options[:params] = parameters(message, flat: true)
       end
 
-      if @endpoint.shared_secret
+      if ENV["AUTH_SHARED_SECRET"]
         digest = OpenSSL::Digest.new('sha256')
-        hmac = OpenSSL::HMAC.hexdigest(digest, @endpoint.shared_secret, request_options[:json])
+        hmac = OpenSSL::HMAC.hexdigest(digest, ENV["AUTH_SHARED_SECRET"], request_options[:json])
         headers["X-Postal-Signature"] = hmac
       end
 
